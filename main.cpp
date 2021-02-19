@@ -4,7 +4,7 @@
 char input[1024];
 int find_mistake(int& len){
     int i, mistake = 0;
-    for (i = 0; i < len; i++)
+    for (i = 0; i < len; ++i)
         if (input[i] == '1')
             mistake ^= i + 1;
     return mistake;
