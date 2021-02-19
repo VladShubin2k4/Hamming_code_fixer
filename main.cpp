@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 char input[1024];
 int find_mistake(int& len){
@@ -15,14 +16,12 @@ bool check_the_digits(int& len){
     return true;
 }
 
-void out_res(int& len, int& info_pos, int& b){
-    char info[1024];
+void out_res(int& len, int& info_pos, int& b, char* info){
     std::cout<<"Fixed code: "<<input<<std::endl;
     for (int i = 0; i < len; ++i)
         if (i+1 == b) b<<=1;
         else info[info_pos++] = input[i];
     info[info_pos] = '\0';
-    std::cout<<"Informational code: "<<info<<std::endl;
 }
 
 void fix(int& mistake, int& len){
@@ -35,8 +34,9 @@ void fix(int& mistake, int& len){
 
 int main(){
     std::ios::sync_with_stdio(false);
+    char info[1024];
     int len, mistake = 0,info_pos = 0, b = 1;
-
+    std::fstream f; f.open("res.txt",std::ios::app | std::ios::out);
     std::cout<<"Enter code: ";
     std::cin >> input;
     len = static_cast<int>(strlen(input));
@@ -44,7 +44,9 @@ int main(){
 
     if(check_the_digits(len)){
         fix(mistake,len);
-        out_res(len,info_pos,b);
+        out_res(len,info_pos,b,info);
+        f<<info;
     }else std::cout<<"Invalid code"<<std::endl;
+    f.close();
     return 0;
 }
